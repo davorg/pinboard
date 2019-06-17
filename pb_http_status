@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+use WWW::Pinboard;
+use Data::Dumper;
+use LWP::UserAgent;
+
+if (!exists $ENV{PINBOARD_API_TOKEN} or ! $ENV{PINBOARD_API_TOKEN}) {
+  die "You need to set an environment variable called PINBOARD_API_TOKEN\n"
+    . "to your Pinboard API token.\n\n"
+    . "Your token is in the format 'username:hexstring' and you can find\n"
+    . "it by visiting your settings/password page on pinboard.in.\n";
+}
+
+my $ua = LWP::UserAgent->new;
+
+my $pb = WWW::Pinboard->new(
+  token => $ENV{PINBOARD_API_TOKEN},
+);
+
+my $pins = $pb->all(
+  start   => 0,
+);
+
+foreach my $pin (@$pins) {
+  my $http_resp = $ua->get($pin->{href});
+
+  say $http_resp->code;
+
+  my $res = $pb->add(
+    url => $pin->{href},
+    description => $pin->{description},
+    tags => "$pin->{tags} http" . $http_resp->code,
+    replace => 'yes',
+  );
+}
