@@ -6,6 +6,9 @@ use feature 'say';
 use WWW::Pinboard;
 use Data::Dumper;
 use LWP::UserAgent;
+use File::Basename;
+
+my $me = basename($0);
 
 if (!exists $ENV{PINBOARD_API_TOKEN} or ! $ENV{PINBOARD_API_TOKEN}) {
   die "You need to set an environment variable called PINBOARD_API_TOKEN\n"
@@ -14,7 +17,9 @@ if (!exists $ENV{PINBOARD_API_TOKEN} or ! $ENV{PINBOARD_API_TOKEN}) {
     . "it by visiting your settings/password page on pinboard.in.\n";
 }
 
-my $ua = LWP::UserAgent->new;
+my $ua = LWP::UserAgent->new(
+  agent => $0,
+);
 
 my $pb = WWW::Pinboard->new(
   token => $ENV{PINBOARD_API_TOKEN},
