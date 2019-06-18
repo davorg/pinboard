@@ -1,7 +1,7 @@
 # pinboard
 
-I've started playing with Pinboard.in and, in particular, its API. This repo is a dumping ground
-for anything I write that seems vaguely useful.
+I've started playing with [Pinboard](https://pinboard.in/) and, in particular, its API.
+This repo is a dumping ground for anything I write that seems vaguely useful.
 
 I'm largely a Perl programmer, so these programs will mostly be in Perl. I've been using
 [WWW::Pinboard](https://metacpan.org/pod/WWW::Pinboard) which is a Perl library that wraps
